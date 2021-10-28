@@ -3,7 +3,7 @@
     "TOKEN": "token here",
     "maxExecTime": 10000,
     "embeds": {
-        "color": "0x2E55D8",
-        "error_color": "0xFF0030"
+        "color": "0x1E11E1",
+        "error_color": "0xE1111E"
     }
 }
