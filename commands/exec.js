@@ -38,7 +38,7 @@ module.exports.cmd = async (client, message, _args) => {
         if (!output || output.trim() === "") {
             executing_msg.edit(`Output is empty\n${time}\n${code_str}`);
         } else {
-            executing_msg.edit(`output:\`\`\`sh\n${output}\n\`\`\`\n${time}\n${code_str}`);
+            executing_msg.edit(`output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}`);
         }
     });
     setTimeout(() => {
