@@ -18,7 +18,7 @@ module.exports.cmd = async (client, message, _args) => {
 
     let file_process = exec(`echo -n "$(tempfile -d ./tmp/ -p prog_ -s .bas)"`);
     let file = "";
-    clibasic_process.stdout.on("data", (data) => {
+    file_process.stdout.on("data", (data) => {
         file = data;
     });
     if (fs.existsSync(file)) {
