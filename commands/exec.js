@@ -18,6 +18,7 @@ module.exports.cmd = async (client, message, _args) => {
         });
 
     var file = exec_s("echo -n \"$(tempfile -d /tmp -p prog_ -s .bas)\"");
+    fs.unlinkSync(file);
     fs.writeFileSync(file, code, { encoding: "utf8" });
 
     let output = "";
@@ -40,7 +41,6 @@ module.exports.cmd = async (client, message, _args) => {
         } else {
             executing_msg.edit(`output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}`);
         }
-        fs.unlinkSync(file);
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
