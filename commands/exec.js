@@ -1,4 +1,5 @@
 const { exec } = require("child_process");
+const { exec_s } = require("child_process").execSync;
 const fs = require("fs");
 
 module.exports.cmd = async (client, message, _args) => {
@@ -19,8 +20,7 @@ module.exports.cmd = async (client, message, _args) => {
     let file_process = exec(`echo -n "$(tempfile -d /tmp -p prog_ -s .bas)"`);
     let file = "";
     console.log("0: " + file);
-    exec("cat index.js", (error, data, getter) => {
-        callback(data);
+    exec_s("cat index.js", (error, data, getter) => {
         file = data;
         console.log("1: " + file);
     });
