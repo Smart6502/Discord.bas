@@ -22,7 +22,7 @@ module.exports.cmd = async (client, message, _args) => {
 
     let output = "";
     let executing_msg = await message.reply("executing...");
-    let clibasic_process = exec(`cd tmp/ && clibasic -nrex "./${file}"`);
+    let clibasic_process = exec(`cd tmp/ && clibasic -nrex "${file}"`);
     let start_time = Date.now();
     clibasic_process.stdout.on("data", (data) => {
         if (data.length < 1024) {
