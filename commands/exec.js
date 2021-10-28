@@ -30,7 +30,7 @@ module.exports.cmd = async (client, message, _args) => {
         }
     });
     clibasic_process.stderr.on("data", (data) => {
-        console.log("stderr: " + data)
+        console.log("stderr: " + data);
     });
     clibasic_process.once("close", (code) => {
         let time = `took \`${(Date.now() - start_time) / 1000}\` seconds`
@@ -40,6 +40,7 @@ module.exports.cmd = async (client, message, _args) => {
         } else {
             executing_msg.edit(`output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}`);
         }
+        fs.unlinkSync(file);
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
