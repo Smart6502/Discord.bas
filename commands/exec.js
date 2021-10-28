@@ -20,6 +20,7 @@ module.exports.cmd = async (client, message, _args) => {
     let file = "";
     console.log("0: " + file);
     exec("cat index.js", (error, data, getter) => {
+        callback(data);
         file = data;
         console.log("1: " + file);
     });
