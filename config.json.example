@@ -1,5 +1,5 @@
 {
-    "PREFIX": "clibasic!",
+    "PREFIX": "cb!",
     "TOKEN": "token here",
     "maxExecTime": 10000,
     "embeds": {
