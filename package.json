@@ -1,12 +1,12 @@
 {
   "name": "clibasic-discord-bot",
-  "version": "1.0.0",
-  "description": "a discord bot that runs clibasic code",
+  "version": "1.1.0",
+  "description": "A Discord bot that runs CLIBASIC code",
   "main": "index.js",
   "scripts": {
     "start": "node ."
   },
-  "author": "ico277",
+  "author": "ico277, PQCraft",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^13.2.0",
