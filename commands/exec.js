@@ -2,7 +2,6 @@ const { exec } = require("child_process");
 const fs = require("fs");
 
 module.exports.cmd = async (client, message, _args) => {
-    if (message.author.id != "607196862017044491") return;
     let code = "";
     let content = message.content
         .substr(client.config.PREFIX.length + 4 /* command length */ + 1 /* new line */);
@@ -17,7 +16,11 @@ module.exports.cmd = async (client, message, _args) => {
             }
         });
 
-    let file = `clibasic_tmp/${Math.ceil(Math.random() * 9999)}.bas`;
+    let file_process = exec(`echo -n "$(tempfile -d ./tmp/ -p prog_ -s .bas)"`);
+    let file = "";
+    clibasic_process.stdout.on("data", (data) => {
+        file = data;
+    });
     if (fs.existsSync(file)) {
         fs.unlinkSync(file)
     }
@@ -25,11 +28,10 @@ module.exports.cmd = async (client, message, _args) => {
 
     let output = "";
     let executing_msg = await message.reply("executing...");
-    let clibasic_process = exec(`clibasic  -knepr -x "./${file}"`);
+    let clibasic_process = exec(`cd tmp/ && clibasic -nrex "./${file}"`);
     let start_time = Date.now();
     clibasic_process.stdout.on("data", (data) => {
-        //console.log("stdout: " + data)
-        if (data.length < 999) {
+        if (data.length < 1024) {
             output += data;
         }
     });
