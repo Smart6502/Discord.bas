@@ -36,7 +36,7 @@ module.exports.cmd = async (client, message, _args) => {
     });
     clibasic_process.once("close", (code) => {
         const outputEmbed = new MessageEmbed()
-            .setColor('#1E11E1')
+            .setColor((code == 0 ? '#1E11E1' : '#E1111E'))
             .addFields(
                 { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },
             )
