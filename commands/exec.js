@@ -44,7 +44,7 @@ module.exports.cmd = async (client, message, _args) => {
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
-            clibasic_process.kill('SIGTERM');
+            //clibasic_process.kill('SIGTERM');
             let tmpproc = exec_s(`kill -s SIGTERM ${clibasic_process.pid}`);
             if (!output || output.trim() === "") {output = "\u200B\n";}
             if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
