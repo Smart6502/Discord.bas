@@ -39,7 +39,6 @@ module.exports.cmd = async (client, message, _args) => {
         let code_str = `\`${code}\``;
         const outputEmbed = new MessageEmbed()
             .setColor('#1E11E1')
-            .setTitle('Output')
             .addFields(
                 { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
                 { name: 'Duration', value: time },
