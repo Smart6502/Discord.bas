@@ -41,7 +41,7 @@ module.exports.cmd = async (client, message, _args) => {
             .setColor('#1E11E1')
             .setTitle('Output')
             .addFields(
-                { name: '', value: `\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
+                { name: '\u200B', value: `\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
             );
         executing_msg.edit(`** **`);
         executing_msg.edit({ embeds: [outputEmbed] });
