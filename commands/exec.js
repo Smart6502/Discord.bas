@@ -26,6 +26,9 @@ module.exports.cmd = async (client, message, _args) => {
     let executing_msg = await message.reply("Executing...");
     let clibasic_process = exec(`cd tmp/ && clibasic -nrex "${file}"`);
     let start_time = Date.now();
+
+    const outputEmbed = new MessageEmbed();
+
     clibasic_process.stdout.on("data", (data) => {
         if (data.length < 1024) {
             output += data;
@@ -35,19 +38,16 @@ module.exports.cmd = async (client, message, _args) => {
         console.log("stderr: " + data);
     });
     clibasic_process.once("close", (code) => {
-        const outputEmbed = new MessageEmbed()
-            .setColor((code == 0 ? '#1E11E1' : '#E1111E'))
-            .addFields(
-                { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },
-            )
-            .setFooter(`Executed in ${(Date.now() - start_time) / 1000} seconds with exit code ${code}.`);
+        outputEmbed.setColor((code == 0 ? '#1E11E1' : '#E1111E')).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} seconds with exit code ${code}.`);
         executing_msg.edit(`Done. `);
         executing_msg.edit({ embeds: [outputEmbed] });
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
             clibasic_process.kill(9);
+            outputEmbed.setColor((code == 0 ? '#1E11E1' : '#E1111E')).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} seconds with exit code ${code}.`);
             executing_msg.edit(`Execution limit of ${client.config.maxExecTime ? client.config.maxExecTime : 10000}ms has been reached.`);
+            executing_msg.edit({ embeds: [outputEmbed] });
         }
         fs.unlinkSync(file);
     }, client.config.maxExecTime ? client.config.maxExecTime : 10000);
