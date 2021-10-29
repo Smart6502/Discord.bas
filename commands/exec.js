@@ -43,7 +43,7 @@ module.exports.cmd = async (client, message, _args) => {
             .addFields(
 		        { value: `output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
             );
-    	executing_msg.edit("");
+    	//executing_msg.edit(`** **`);
         executing_msg.edit({ embeds: [outputEmbed] });
     });
     setTimeout(() => {
