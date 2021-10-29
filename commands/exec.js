@@ -23,7 +23,7 @@ module.exports.cmd = async (client, message, _args) => {
     fs.writeFileSync(file, code, { encoding: "utf8" });
 
     let output = "";
-    let executing_msg = await message.reply("executing...");
+    let executing_msg = await message.reply("Executing...");
     let clibasic_process = exec(`cd tmp/ && clibasic -nrex "${file}"`);
     let start_time = Date.now();
     clibasic_process.stdout.on("data", (data) => {
@@ -35,21 +35,23 @@ module.exports.cmd = async (client, message, _args) => {
         console.log("stderr: " + data);
     });
     clibasic_process.once("close", (code) => {
-        let time = `Completed in \`${(Date.now() - start_time) / 1000}\` seconds`
-        let code_str = `Exited with code \`${code}\``;
+        let time = `\`${(Date.now() - start_time) / 1000}\` seconds`
+        let code_str = `\`${code}\``;
         const outputEmbed = new MessageEmbed()
             .setColor('#1E11E1')
             .setTitle('Output')
             .addFields(
-                { name: '\u200B', value: `\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
+                { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
+                { name: 'Duration', value: time },
+                { name: 'Exit code', value: code_str },
             );
-        executing_msg.edit(`** **`);
+        executing_msg.edit(`Done.`);
         executing_msg.edit({ embeds: [outputEmbed] });
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
             clibasic_process.kill(9);
-            message.reply(`Process has been killed after running for longer than the maximum ${client.config.maxExecTime ? client.config.maxExecTime : 10000}ms!`)
+            executing_msg.edit(`Execution limit of ${client.config.maxExecTime ? client.config.maxExecTime : 10000}ms has been reached.`);
         }
         fs.unlinkSync(file);
     }, client.config.maxExecTime ? client.config.maxExecTime : 10000);
