@@ -1,4 +1,5 @@
 const { exec } = require("child_process");
+const { MessageEmbed } = require('discord.js');
 const exec_s = require("child_process").execSync;
 const fs = require("fs");
 
@@ -35,12 +36,14 @@ module.exports.cmd = async (client, message, _args) => {
     });
     clibasic_process.once("close", (code) => {
         let time = `took \`${(Date.now() - start_time) / 1000}\` seconds`
-        let code_str = `exited with code \`${code}\``;
-        if (!output || output.trim() === "") {
-            executing_msg.edit(`Output is empty\n${time}\n${code_str}`);
-        } else {
-            executing_msg.edit(`output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}`);
-        }
+        let code_str = `Exited with code \`${code}\``;
+        const outputEmbed = new MessageEmbed()
+            .setColor('#1E11E1')
+            .setTitle('Some title')
+            .addFields(
+		        { name: 'Output', value: `output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
+            );
+        executing_msg.edit({ embeds: [outputEmbed] });
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
