@@ -29,6 +29,8 @@ module.exports.cmd = async (client, message, _args) => {
 
     const outputEmbed = new MessageEmbed();
 
+    let prockilled = 0;
+
     clibasic_process.stdout.on("data", (data) => {
         output += data;
     });
@@ -36,15 +38,19 @@ module.exports.cmd = async (client, message, _args) => {
         console.log("stderr: " + data);
     });
     clibasic_process.once("close", (ecode) => {
-        if (!output || output.trim() === "") {output = "\u200B\n";}
-        if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
-        outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
-        executing_msg.edit(`Done. `);
-        executing_msg.edit({ embeds: [outputEmbed] });
+        if (prockilled = 0) {
+            if (!output || output.trim() === "") {output = "\u200B\n";}
+            if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
+            outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
+            executing_msg.edit(`Done. `);
+            executing_msg.edit({ embeds: [outputEmbed] });
+        } else {
+            prockilled = 0;
+        }
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
-            //clibasic_process.kill('SIGTERM');
+            prockilled = 1;
             let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1}'`);
             if (!output || output.trim() === "") {output = "\u200B\n";}
             if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
