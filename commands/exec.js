@@ -41,9 +41,8 @@ module.exports.cmd = async (client, message, _args) => {
             .setColor('#1E11E1')
             .addFields(
                 { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`` },
-                { name: 'Duration', value: time },
-                { name: 'Exit code', value: code_str },
-            );
+            )
+            .setFooter(`Executed in ${time} with exit code ${code_str}.`);
         executing_msg.edit(`Done.`);
         executing_msg.edit({ embeds: [outputEmbed] });
     });
