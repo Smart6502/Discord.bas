@@ -38,7 +38,7 @@ module.exports.cmd = async (client, message, _args) => {
         const outputEmbed = new MessageEmbed()
             .setColor('#1E11E1')
             .addFields(
-                { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(38)}__\n` },
+                { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}    __\n` },
             )
             .setFooter(`Executed in ${(Date.now() - start_time) / 1000} seconds with exit code ${code}.`);
         executing_msg.edit(`Done. `);
