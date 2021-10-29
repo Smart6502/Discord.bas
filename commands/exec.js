@@ -35,16 +35,13 @@ module.exports.cmd = async (client, message, _args) => {
         console.log("stderr: " + data);
     });
     clibasic_process.once("close", (code) => {
-        let time = `\`${(Date.now() - start_time) / 1000}\` seconds`
-        let code_str = `\`${code}\``;
         const outputEmbed = new MessageEmbed()
             .setColor('#1E11E1')
             .addFields(
                 { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`` },
             )
-            .setFooter(`Executed in ${time} with exit code ${code_str}.`);
-        executing_msg.edit(`Done.`);
-        executing_msg.edit({ embeds: [outputEmbed] });
+            .setFooter(`Executed in ${(Date.now() - start_time) / 1000} seconds with exit code ${code}.`);
+        executing_msg.edit(`Done. ${ embeds: [outputEmbed] }`);
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
