@@ -40,7 +40,7 @@ module.exports.cmd = async (client, message, _args) => {
     clibasic_process.once("close", (ecode) => {
         if (!output || output.trim() === "") {output = "\u200B\n";}
         let outputl = output.length;
-        if (outputl > 4000) {output = output.substr(0, 3999) + "\n...";}
+        if (outputl > 1000) {output = output.substr(0, 999) + "\n...";}
         outputEmbed.setColor((ecode == 0 ? '#1E11E1' : '#E1111E')).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
         executing_msg.edit(`Done. `);
         executing_msg.edit({ embeds: [outputEmbed] });
@@ -50,7 +50,7 @@ module.exports.cmd = async (client, message, _args) => {
             clibasic_process.kill(9);
             if (!output || output.trim() === "") {output = "\u200B\n";}
             let outputl = output.length;
-            if (outputl > 4000) {output = output.substr(0, 3999) + "\n...";}
+            if (outputl > 1000) {output = output.substr(0, 999) + "\n...";}
             outputEmbed.setColor('#E1111E').addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
             executing_msg.edit(`Execution limit of ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s) has been reached.`);
             executing_msg.edit({ embeds: [outputEmbed] });
