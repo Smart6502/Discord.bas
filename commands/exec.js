@@ -44,7 +44,8 @@ module.exports.cmd = async (client, message, _args) => {
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
-            exec(`kill ${clibasic_process.pid}`, (error, stdout, stderr) => {});
+            exec_s(`kill -s SIGTERM ${clibasic_process.pid}`);
+            clibasic_process.kill('SIGTERM');
             if (!output || output.trim() === "") {output = "\u200B\n";}
             if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
             outputEmbed.setColor(client.config.embeds.error_color).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
