@@ -41,7 +41,7 @@ module.exports.cmd = async (client, message, _args) => {
                 { name: 'Output', value: `\`\`\`\n${output}\n\`\`\`` },
             )
             .setFooter(`Executed in ${(Date.now() - start_time) / 1000} seconds with exit code ${code}.`);
-        executing_msg.edit(`Done. ${ embeds: [outputEmbed] }`);
+        executing_msg.edit(`Done. `${ embeds: [outputEmbed] });
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
