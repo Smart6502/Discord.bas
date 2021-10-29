@@ -39,10 +39,11 @@ module.exports.cmd = async (client, message, _args) => {
         let code_str = `Exited with code \`${code}\``;
         const outputEmbed = new MessageEmbed()
             .setColor('#1E11E1')
-            .setTitle('Some title')
+            .setTitle('Output')
             .addFields(
-		        { name: 'Output', value: `output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
+		        { value: `output:\`\`\`\n${output}\n\`\`\`\n${time}\n${code_str}` },
             );
+    	executing_msg.edit("");
         executing_msg.edit({ embeds: [outputEmbed] });
     });
     setTimeout(() => {
