@@ -38,7 +38,7 @@ module.exports.cmd = async (client, message, _args) => {
         console.log("stderr: " + data);
     });
     clibasic_process.once("close", (ecode) => {
-        if (prockilled = 0) {
+        if (prockilled == 0) {
             if (!output || output.trim() === "") {output = "\u200B\n";}
             if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
             outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
