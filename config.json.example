@@ -6,6 +6,6 @@
         "color": "0x1A33B1",
         "error_color": "0xA1111A"
     },
-    "charLimit" = 800,
-    "lineLimit" = 40
+    "charLimit": 800,
+    "lineLimit": 40
 }
