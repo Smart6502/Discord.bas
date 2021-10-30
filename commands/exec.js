@@ -30,6 +30,7 @@ module.exports.cmd = async (client, message, _args) => {
     const outputEmbed = new MessageEmbed();
 
     let prockilled = 0;
+    let procexited = 0;
 
     clibasic_process.stdout.on("data", (data) => {
         output += data;
@@ -52,18 +53,23 @@ module.exports.cmd = async (client, message, _args) => {
             setEmbed((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color), output)
             executing_msg.edit(`Done. `);
             executing_msg.edit({ embeds: [outputEmbed] });
+            procexited = 1;
         } else {
             prockilled = 0;
         }
     });
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
-            prockilled = 1;
-            let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1} || exit 0'`);
-            outputEmbed.setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
-            setEmbed(client.config.embeds.error_color, output);
-            executing_msg.edit(`Execution limit of ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s) has been reached.`);
-            executing_msg.edit({ embeds: [outputEmbed] });
+            if (procexited == 0) {
+                prockilled = 1;
+                let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1} || exit 0'`);
+                outputEmbed.setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
+                setEmbed(client.config.embeds.error_color, output);
+                executing_msg.edit(`Execution limit of ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s) has been reached.`);
+                executing_msg.edit({ embeds: [outputEmbed] });
+            } else {
+                procexited = 0;
+            }
         }
         fs.unlinkSync(file);
     }, client.config.maxExecTime ? client.config.maxExecTime : 10000);
