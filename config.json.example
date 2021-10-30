@@ -1,0 +1,11 @@
+{
+    "PREFIX": "cb!",
+    "TOKEN": "token here",
+    "maxExecTime": 15000,
+    "embeds": {
+        "color": "0x1A33B1",
+        "error_color": "0xA1111A"
+    },
+    charLimit = 800,
+    lineLimit = 40
+}
