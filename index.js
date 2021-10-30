@@ -6,9 +6,6 @@ client.commands = {};
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    console.log("Cleaning ./tmp/...")
-    fs.readdirSync("./tmp/")
-        .forEach((path) => fs.unlinkSync("./tmp/" + path));
     console.log("[ loading commands ]");
     fs.readdirSync("./commands/")
         .forEach((file) => {
