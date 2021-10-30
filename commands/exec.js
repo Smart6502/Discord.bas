@@ -39,7 +39,7 @@ module.exports.cmd = async (client, message, _args) => {
     });
     clibasic_process.once("close", (ecode) => {
         if (prockilled == 0) {
-            if (!output || output.trim() === "") {output = output + "\u200B\n";}
+            if (!output || output.trim() === "") {output = output.replace(/(?:\r\n|\r|\n)/g, '\u200B\n') + "\u200B\n";}
             outputEmbed.setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
             if (output.length > 800) {output = "..." + output.substr(output.length - 800); outputEmbed.setFooter(outputEmbed.footer + " Output was truncated to the 800 char limit.");}
             outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },)
