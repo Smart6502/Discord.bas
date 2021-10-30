@@ -39,9 +39,10 @@ module.exports.cmd = async (client, message, _args) => {
     });
     clibasic_process.once("close", (ecode) => {
         if (prockilled == 0) {
-            if (!output || output.trim() === "") {output = "\u200B\n";}
-            if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
-            outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
+            if (!output || output.trim() === "") {output = output + "\u200B\n";}
+            outputEmbed.setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
+            if (output.length > 800) {output = "..." + output.substr(output.length - 800); outputEmbed.setFooter(outputEmbed.footer + " Output was truncated to the 800 char limit.");}
+            outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },)
             executing_msg.edit(`Done. `);
             executing_msg.edit({ embeds: [outputEmbed] });
         } else {
@@ -53,7 +54,7 @@ module.exports.cmd = async (client, message, _args) => {
             prockilled = 1;
             let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1}'`);
             if (!output || output.trim() === "") {output = "\u200B\n";}
-            if (output.length > 800) {output = "...\n" + output.substr(output.length - 800, output.length - 1);}
+            if (output.length > 800) {output = "..." + output.substr(output.length - 800); outputEmbed.setFooter(outputEmbed.footer + " Output was truncated to the 800 char limit.");}
             outputEmbed.setColor(client.config.embeds.error_color).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
             executing_msg.edit(`Execution limit of ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s) has been reached.`);
             executing_msg.edit({ embeds: [outputEmbed] });
