@@ -59,7 +59,7 @@ module.exports.cmd = async (client, message, _args) => {
     setTimeout(() => {
         if (clibasic_process.exitCode === null) {
             prockilled = 1;
-            let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1}'`);
+            let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1} || exit 0'`);
             outputEmbed.setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
             setEmbed(client.config.embeds.error_color, output);
             executing_msg.edit(`Execution limit of ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s) has been reached.`);
