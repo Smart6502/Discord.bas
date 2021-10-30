@@ -37,12 +37,17 @@ module.exports.cmd = async (client, message, _args) => {
     clibasic_process.stderr.on("data", (data) => {
         console.log("stderr: " + data);
     });
+    
+    function setEmbed(color, output, ecode) {
+        if (!output || output.trim() === "") {output = output.replace(/(?:\r\n|\r|\n)/g, '\u200B\n') + "\u200B\n";}
+        if (output.length > client.config.charLimit) {output = "..." + output.substr(output.length - client.config.charLimit); outputEmbed.setFooter(outputEmbed.footer.text + ` Output was truncated to the ${client.config.charLimit} char limit.`);}
+        outputEmbed.setColor(color).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },)
+    }
+    
     clibasic_process.once("close", (ecode) => {
         if (prockilled == 0) {
-            if (!output || output.trim() === "") {output = output.replace(/(?:\r\n|\r|\n)/g, '\u200B\n') + "\u200B\n";}
             outputEmbed.setFooter(`Executed in ${(Date.now() - start_time) / 1000} second(s) with exit code ${ecode}.`);
-            if (output.length > client.config.charLimit) {output = "..." + output.substr(output.length - client.config.charLimit); outputEmbed.setFooter(outputEmbed.footer.text + ` Output was truncated to the ${client.config.charLimit} char limit.`);}
-            outputEmbed.setColor((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color)).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },)
+            setEmbed((ecode == 0 ? client.config.embeds.color : client.config.embeds.error_color), output, ecode)
             executing_msg.edit(`Done. `);
             executing_msg.edit({ embeds: [outputEmbed] });
         } else {
@@ -53,9 +58,8 @@ module.exports.cmd = async (client, message, _args) => {
         if (clibasic_process.exitCode === null) {
             prockilled = 1;
             let tmpproc = exec_s(`/bin/bash -c 'kill -s SIGTERM ${clibasic_process.pid + 1}'`);
-            if (!output || output.trim() === "") {output = "\u200B\n";}
-            if (output.length > client.config.charLimit) {output = "..." + output.substr(output.length - client.config.charLimit); outputEmbed.setFooter(outputEmbed.footer.text + ` Output was truncated to the ${client.config.charLimit} char limit.`);}
-            outputEmbed.setColor(client.config.embeds.error_color).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },).setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
+            outputEmbed.setFooter(`Killed after ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s).`);
+            setEmbed(client.config.embeds.error_color, output, ecode);
             executing_msg.edit(`Execution limit of ${(client.config.maxExecTime ? client.config.maxExecTime : 10000) / 1000} second(s) has been reached.`);
             executing_msg.edit({ embeds: [outputEmbed] });
         }
