@@ -43,7 +43,7 @@ module.exports.cmd = async (client, message, _args) => {
         if (!output || output.trim() === "") {output = output.replace(/(?:\r\n|\r|\n)/g, '\u200B\n') + "\u200B\n";}
         if (output.length > client.config.charLimit) {output = "..." + output.substr(output.length - client.config.charLimit); outputEmbed.setFooter(outputEmbed.footer.text + ` Output was truncated to the ${client.config.charLimit} char limit.`);}
         const splitOutput = output.split('\n');
-        if (splitOutput.length > client.config.lineLimit) {output = ""; let i = splitOutput.length - client.config.lineLimi; if (i < 0) {i = 0;} for (; i < splitOutput.length; ++i) {output = output + splitOutput[i] + '\n';} outputEmbed.setFooter(outputEmbed.footer.text + ` Output was truncated to the ${client.config.lineLimit} line limit.`);}
+        if (splitOutput.length > client.config.lineLimit) {output = ""; let i = splitOutput.length - client.config.lineLimit; if (i < 0) {i = 0;} for (; i < splitOutput.length; ++i) {output = output + splitOutput[i] + '\n';} outputEmbed.setFooter(outputEmbed.footer.text + ` Output was truncated to the ${client.config.lineLimit} line limit.`);}
         outputEmbed.setColor(color).addFields({ name: 'Output', value: `\`\`\`\n${output}\n\`\`\`__${" ".repeat(34)}   __\n` },)
     }
     
