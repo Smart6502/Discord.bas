@@ -38,14 +38,10 @@ client.on("messageCreate", async (message) => {
         try {
             await cmd.cmd(client, message, args);
         } catch (err) {
-            await message.reply("there was an unexpected error whilst running command!");
-            message.channel.send(`=> ${err}`);
+            await message.reply(`There was an unexpected error whilst running the command!\n> ${err}`);
         }
     } else {
         let msg = await message.channel.send(`Command '${command}' not found!`);
-        setTimeout(() => {
-            if (msg.deletable) msg.delete().catch((_) => {});
-        }, 5000);
     }
 });
 
