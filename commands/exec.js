@@ -24,7 +24,7 @@ module.exports.cmd = async (client, message, _args) => {
 
     let output = "";
     let executing_msg = await message.reply("Executing...");
-    let clibasic_process = exec(`cd tmp/ && clibasic -nrex "${file}"`);
+    let clibasic_process = exec(`cd tmp/ && yarxbi "${file}"`);
     let start_time = Date.now();
 
     const outputEmbed = new MessageEmbed();
